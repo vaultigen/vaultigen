@@ -128,7 +128,7 @@ return [
     | last release, and a missing or malformed date covers no update window.
     |
     */
-    'release_date' => '2026-11-08',
+    'release_date' => '2026-11-09',
 
     /*
     |--------------------------------------------------------------------------
