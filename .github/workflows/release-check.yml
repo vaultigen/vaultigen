@@ -1,0 +1,38 @@
+name: release-check
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  release-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: '8.5'
+          extensions: sodium
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Prepare environment
+        run: cp .env.example .env
+
+      # Licenses are checked against the release date, so a tag must carry a matching version and date.
+      - name: Verify version and release date
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: php artisan vaultigen:release:check "$RELEASE_TAG"

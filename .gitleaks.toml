@@ -1,0 +1,17 @@
+# Secret scanning configuration for gitleaks (https://github.com/gitleaks/gitleaks).
+# Test fixtures contain deliberate, non-production sample credentials, so they
+# are excluded from the default rule set.
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Test fixtures"
+paths = [
+  '''^tests/''',
+]
+
+[[allowlists]]
+description = "Generated Laravel Boost skill docs with illustrative placeholder secrets"
+paths = [
+  '''^\.github/skills/''',
+]

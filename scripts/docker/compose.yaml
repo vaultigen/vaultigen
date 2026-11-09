@@ -1,0 +1,137 @@
+# Vaultigen with Docker Compose. Configure .env (from env.example), then:
+#   docker compose run --rm setup
+#   docker compose up -d --wait
+# This file normally stays the same across application updates; change
+# VAULTIGEN_IMAGE_TAG in .env instead. Everything the installation stores
+# lives next to this file: data/ (database, files, keys, certificates) and
+# backups/ (verified, encrypted backup sets).
+name: vaultigen
+
+x-application: &application
+  image: vaultigen/vaultigen:${VAULTIGEN_IMAGE_TAG:?Set VAULTIGEN_IMAGE_TAG in .env to an exact release}
+  env_file: .env
+  environment: &application-environment
+    APP_ENV: production
+    APP_DEBUG: "false"
+    APP_URL: https://${VAULTIGEN_DOMAIN:?Set VAULTIGEN_DOMAIN in .env}
+    SESSION_SECURE_COOKIE: "true"
+    VAULTIGEN_MFA_DISABLED: "false"
+    DB_CONNECTION: pgsql
+    DB_HOST: database
+    DB_PORT: "5432"
+    DB_DATABASE: vaultigen
+    DB_USERNAME: vaultigen
+    MAIL_MAILER: ${MAIL_MAILER:-smtp}
+    VAULTIGEN_APP_KEY_FILE: /keys/app.key
+    VAULTIGEN_INSTALLATION_FILE: /keys/installation.json
+    VAULTIGEN_KEK_PROVIDER: file
+    VAULTIGEN_KEK_FILE: /keys/kek.json
+    VAULTIGEN_BACKUP_KEY_FILE: /keys/backup.json
+    VAULTIGEN_BACKUP_ROOT: /backups
+    VAULTIGEN_WEB_MODE: https
+  volumes:
+    - ./data/storage:/app/storage:z
+    - ./data/keys:/keys:z
+    - ./backups:/backups:z
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+
+x-migrated: &migrated
+  migrate:
+    condition: service_completed_successfully
+
+services:
+  database:
+    image: docker.io/library/postgres:18-trixie
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: vaultigen
+      POSTGRES_USER: vaultigen
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql:z
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    stop_grace_period: 1m
+
+  # One-off: docker compose run --rm setup. Starts as root only to hand the
+  # data/ and backups/ directories to the application user, then drops to it.
+  setup:
+    <<: *application
+    profiles: [tools]
+    user: "0:0"
+    cap_add: [CHOWN, DAC_OVERRIDE, FOWNER, SETGID, SETUID]
+    command: ["setup"]
+    restart: "no"
+    volumes:
+      - ./data/storage:/app/storage:z
+      - ./data/keys:/keys:z
+      - ./backups:/backups:z
+      - ./data/caddy:/data:z
+    depends_on:
+      database:
+        condition: service_healthy
+
+  # Runs on every "up": validates keys and installation, backs up before
+  # pending migrations, applies them once, and exits.
+  migrate:
+    <<: *application
+    command: ["migrate"]
+    restart: "no"
+    stop_grace_period: 1h
+    depends_on:
+      database:
+        condition: service_healthy
+
+  web:
+    <<: *application
+    command: ["web"]
+    restart: unless-stopped
+    ports:
+      - "80:8080"
+      - "443:8443"
+      - "443:8443/udp"
+    volumes:
+      - ./data/storage:/app/storage:z
+      - ./data/keys:/keys:z
+      - ./backups:/backups:z
+      - ./data/caddy:/data:z
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS -o /dev/null -H \"Host: $${VAULTIGEN_DOMAIN}\" http://127.0.0.1:8081/up"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    stop_grace_period: 30s
+    depends_on: *migrated
+
+  worker:
+    <<: *application
+    command: ["worker"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "php", "artisan", "vaultigen:health", "worker"]
+      interval: 60s
+      timeout: 20s
+      retries: 3
+      start_period: 30s
+    # Long imports, backups, and rotations finish before the worker exits.
+    stop_grace_period: 1h
+    depends_on: *migrated
+
+  scheduler:
+    <<: *application
+    command: ["scheduler"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "php", "artisan", "vaultigen:health", "scheduler"]
+      interval: 60s
+      timeout: 20s
+      retries: 3
+      start_period: 30s
+    stop_grace_period: 1m
+    depends_on: *migrated

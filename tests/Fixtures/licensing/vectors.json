@@ -1,0 +1,328 @@
+{
+    "format": 1,
+    "trusted_keys": {
+        "test-1": "23ufwFS9TWQkR/zfec3vkDWwyWx0rS/wXqVMy3A3qeo="
+    },
+    "cases": [
+        {
+            "name": "valid-pro",
+            "description": "Pro license with unlimited users, released inside the update window.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\nNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.SuMV\nWWGA0nLjKZv1KMJv4e0OuVOjhtQeghbvoGG1dhS-r1dZ76J8R53VbzKRbU-pCJMc\nXuac0r1POVh_udO4BA\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "licensed",
+                "reason": null
+            }
+        },
+        {
+            "name": "valid-pro-capped",
+            "description": "Pro license limited to 50 users.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjo1MCwidXBkYXRlc191bnRpbCI6IjIwMjct\nMTAtMDEiLCJpc3N1ZWRfYXQiOiIyMDI2LTEwLTAxVDEyOjAwOjAwWiJ9.MsnUola\nHa1juV0e02FwrMAyldg_wgq3qAmKwMtSq3Sk7kJgQJwVFAGsSsI4OkWFdxsAh5N0\nL-DhF4FXGDNWaBQ\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "licensed",
+                "reason": null
+            }
+        },
+        {
+            "name": "valid-lifetime",
+            "description": "Lifetime license (no update end) evaluated against a release far in the future.",
+            "release_date": "2040-01-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoibGlmZXRpbWUiLCJtYXhfdXNlcnMiOm51bGwsInVwZGF0ZXNfdW50aWwi\nOm51bGwsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.BKQDiC4K\nPIjMvtBT9u73j3yHKzb85_rte0mZLKItWKCfrUy0awXMl2-9PlrolHleo6BUj9h_\nTmznbFBIL9ymBw\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "licensed",
+                "reason": null
+            }
+        },
+        {
+            "name": "boundary-release-on-last-day",
+            "description": "The release date equals updates_until, which is inclusive.",
+            "release_date": "2027-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\nNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.SuMV\nWWGA0nLjKZv1KMJv4e0OuVOjhtQeghbvoGG1dhS-r1dZ76J8R53VbzKRbU-pCJMc\nXuac0r1POVh_udO4BA\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "licensed",
+                "reason": null
+            }
+        },
+        {
+            "name": "missing-release-date",
+            "description": "A build without a release date is covered by no dated update window.",
+            "release_date": null,
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjA5\nOS0xMi0zMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.pjLU\nU5RkrFnc7atm1rsDVrbywnPQBmuCwyoTCnV94ohBwb7VdUvyNTeXoifiH-baAqcf\nqVFqLfG2ciuARrfDDg\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "updates_expired",
+                "reason": null
+            }
+        },
+        {
+            "name": "unwrapped-body",
+            "description": "The body on a single line instead of 64-character lines.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGljZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vuc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0aW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAyNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.SuMVWWGA0nLjKZv1KMJv4e0OuVOjhtQeghbvoGG1dhS-r1dZ76J8R53VbzKRbU-pCJMcXuac0r1POVh_udO4BA\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "licensed",
+                "reason": null
+            }
+        },
+        {
+            "name": "crlf-line-endings",
+            "description": "Windows line endings.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\r\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\r\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\r\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\r\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\r\nNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.SuMV\r\nWWGA0nLjKZv1KMJv4e0OuVOjhtQeghbvoGG1dhS-r1dZ76J8R53VbzKRbU-pCJMc\r\nXuac0r1POVh_udO4BA\r\n-----END VAULTIGEN LICENSE-----\r\n",
+            "expected": {
+                "state": "licensed",
+                "reason": null
+            }
+        },
+        {
+            "name": "surrounding-whitespace",
+            "description": "Indented lines and blank lines around the block, as pasted from an email.",
+            "release_date": "2026-10-01",
+            "armored": "\n\n  -----BEGIN VAULTIGEN LICENSE-----\n  eyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\n  ZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\n  c2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\n  aW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\n  Ny0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.SuMV\n  WWGA0nLjKZv1KMJv4e0OuVOjhtQeghbvoGG1dhS-r1dZ76J8R53VbzKRbU-pCJMc\n  Xuac0r1POVh_udO4BA\n  -----END VAULTIGEN LICENSE-----\n  \n\t\n",
+            "expected": {
+                "state": "licensed",
+                "reason": null
+            }
+        },
+        {
+            "name": "unknown-extra-field",
+            "description": "Unknown additional fields are ignored.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\nNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIiwic3Vw\ncG9ydF90aWVyIjoicHJpb3JpdHkifQ._y7QhTag7PCb-4bi8wYmsjYlJuZqE2KSP\nmrpK5FVri2l_wc10OdleutF1GoS8Q0yi4XWpmyVb-C45c2mCoD_Aw\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "licensed",
+                "reason": null
+            }
+        },
+        {
+            "name": "updates-expired",
+            "description": "The release date is one day after updates_until.",
+            "release_date": "2027-10-02",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\nNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.SuMV\nWWGA0nLjKZv1KMJv4e0OuVOjhtQeghbvoGG1dhS-r1dZ76J8R53VbzKRbU-pCJMc\nXuac0r1POVh_udO4BA\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "updates_expired",
+                "reason": null
+            }
+        },
+        {
+            "name": "bad-signature-wrong-key",
+            "description": "Signed with an untrusted key while claiming the trusted kid.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\nNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.PdV6\n5-gSi2WBAcQybR6Y4obNEoB0yTExoGqMKj37-an1e_AIPh8FiScqm8Cy6n32sIMs\nXwdPbZ8FFPtm61xXDA\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "bad_signature"
+            }
+        },
+        {
+            "name": "bad-signature-tampered-payload",
+            "description": "The licensee was changed after signing.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiRVZJTCBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\nNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.SuMV\nWWGA0nLjKZv1KMJv4e0OuVOjhtQeghbvoGG1dhS-r1dZ76J8R53VbzKRbU-pCJMc\nXuac0r1POVh_udO4BA\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "bad_signature"
+            }
+        },
+        {
+            "name": "unknown-kid",
+            "description": "Signed with a key id the verifier does not trust.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidW5rbm93bi05Iiwi\nbGljZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxp\nY2Vuc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJl\nZGl0aW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoi\nMjAyNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.\n-fLBNZQfowqCKcVRpqCH81MSyweOvkTxnfkjHc6Ef48heg5qoHxFwkWXDq5pIJxG\n160Y3Qf3D0Kx1khZCLq5Bw\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "unknown_key"
+            }
+        },
+        {
+            "name": "missing-kid",
+            "description": "The payload has no kid.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwibGljZW5zZV9pZCI6ImxpY18w\nMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vuc2VlIjoiQUNNRSBHbWJI\nIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0aW9uIjoicHJvIiwibWF4\nX3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAyNy0xMC0wMSIsImlzc3Vl\nZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.CNrKyMKkChPYXMC_Gv_6lr0R\nmu2JgZ4P6lrKnvNDHzblUx1Fwk-QSVAYjXL5WcozzLK1lW_n-J1rW9zuJOusAw\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "unknown_key"
+            }
+        },
+        {
+            "name": "unsupported-version",
+            "description": "Payload version 2.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoyLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\nNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.LQqn\nufLICWTMzVVKfWNtnyTizqXlqZOzJDQhfbUsSo-6ccs5pCvqCYqw52JGgkDypyQ2\nid228_Y0W2oaABtDDg\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "unsupported_version"
+            }
+        },
+        {
+            "name": "wrong-product",
+            "description": "A license for a different product.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0Ijoib3RoZXItcHJvZHVjdCIsImtpZCI6InRlc3QtMSIs\nImxpY2Vuc2VfaWQiOiJsaWNfMDFKOVpRM1Y2SzhNMk40UDVSN1M5VDFXM1giLCJs\naWNlbnNlZSI6IkFDTUUgR21iSCIsImVtYWlsIjoiaXRAYWNtZS5leGFtcGxlIiwi\nZWRpdGlvbiI6InBybyIsIm1heF91c2VycyI6bnVsbCwidXBkYXRlc191bnRpbCI6\nIjIwMjctMTAtMDEiLCJpc3N1ZWRfYXQiOiIyMDI2LTEwLTAxVDEyOjAwOjAwWiJ9\n.ZqjWsn4VCW3mmR9jDRGbSmuD3rrwSqRuWii3WkmN_gteKbHOvnSciVxrazz9TF1\nQm_pOPMd2pmgXQcHjs5JgDQ\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "wrong_product"
+            }
+        },
+        {
+            "name": "schema-missing-licensee",
+            "description": "A required field is missing.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImVtYWls\nIjoiaXRAYWNtZS5leGFtcGxlIiwiZWRpdGlvbiI6InBybyIsIm1heF91c2VycyI6\nbnVsbCwidXBkYXRlc191bnRpbCI6IjIwMjctMTAtMDEiLCJpc3N1ZWRfYXQiOiIy\nMDI2LTEwLTAxVDEyOjAwOjAwWiJ9.qC4Wj12HiVl9q4MAtdCPffKA64fUVTszLTP\nBM4o6tP9GsLeipe5LbBV49aHUx4t2-0nWlaIGacVYwdgGlR4WAA\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "schema"
+            }
+        },
+        {
+            "name": "schema-empty-licensee",
+            "description": "The licensee is only whitespace.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiICAgIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0aW9uIjoi\ncHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAyNy0xMC0w\nMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.-59V4X3t_Cjz\nvQaaPmhbtw22bloep_fUvwE-XtYcUfQ0f1mg84_eSymvIPeDHZqHNG5CQlWAPInq\nTjIW0hYHBg\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "schema"
+            }
+        },
+        {
+            "name": "schema-impossible-date",
+            "description": "updates_until is not a real calendar date.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\nNy0xMy00NSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.qLCw\nZq1k6kYbD83lO4wqAeFDS9mkKDZV7cej_z43WSQA03kGZDjism0ILbkhxDaAp-Eg\n545ckkiQkx23ps6sAg\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "schema"
+            }
+        },
+        {
+            "name": "schema-max-users-below-free",
+            "description": "max_users below the free edition limit.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjo1LCJ1cGRhdGVzX3VudGlsIjoiMjAyNy0x\nMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.F5BzUK72\n1_97p69r_u9NeUDa1tf_Vk6BwOurLALzPRDyhZMrUiyi7CAdbSIJxSsfss21nNSu\n6QWCiiE-KUQrCw\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "schema"
+            }
+        },
+        {
+            "name": "schema-max-users-string",
+            "description": "max_users as a string instead of an integer.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjoiNTAiLCJ1cGRhdGVzX3VudGlsIjoiMjAy\nNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.Kuv5\nMPA8NMSzK3vlbZryF0g020wZRvHjQAbF8U2_wYd8rzpVbKyYTFRYE9Bz4cKsCndb\nnUJwZ2JutDf37G_TBQ\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "schema"
+            }
+        },
+        {
+            "name": "schema-unknown-edition",
+            "description": "An edition that does not exist.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoiZW50ZXJwcmlzZSIsIm1heF91c2VycyI6bnVsbCwidXBkYXRlc191bnRp\nbCI6IjIwMjctMTAtMDEiLCJpc3N1ZWRfYXQiOiIyMDI2LTEwLTAxVDEyOjAwOjAw\nWiJ9.cB6jefXjYJV5ZSBe1MPbRu_r8IwC1-deQznW1NzCDcskn6rXxSYo6asTeiP\nf4dykQG9azMLzf5N9_vC_BUlDDg\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "schema"
+            }
+        },
+        {
+            "name": "schema-issued-at-not-string",
+            "description": "issued_at as a Unix timestamp instead of an ISO-8601 string.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\nNy0xMC0wMSIsImlzc3VlZF9hdCI6MTc5MDg1NjAwMH0.clk1A7TWPdNeiaIX1m2a\new5IhDSXEj1yIUm4KxhZDYhKPGlvvU0OXYqEoR-g5i_PsBzxL-Sb200IvUZtYe0u\nCw\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "schema"
+            }
+        },
+        {
+            "name": "schema-bad-license-id",
+            "description": "license_id without the lic_ prefix.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6IjAxSjlaUTNWNks4TTJONFA1UjdTOVQxVzNYIiwibGljZW5zZWUi\nOiJBQ01FIEdtYkgiLCJlbWFpbCI6Iml0QGFjbWUuZXhhbXBsZSIsImVkaXRpb24i\nOiJwcm8iLCJtYXhfdXNlcnMiOm51bGwsInVwZGF0ZXNfdW50aWwiOiIyMDI3LTEw\nLTAxIiwiaXNzdWVkX2F0IjoiMjAyNi0xMC0wMVQxMjowMDowMFoifQ.AwYPk8iNy\nJ9rm6DyBC3Yc9wlcx3fD8bdDj6OSFd9RWnPah9MXAradnWzrUbDB-2DZDtaYeUI9\n6FJh03L66TzBw\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "schema"
+            }
+        },
+        {
+            "name": "malformed-missing-armor",
+            "description": "The body without BEGIN/END lines.",
+            "release_date": "2026-10-01",
+            "armored": "eyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\nNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.SuMV\nWWGA0nLjKZv1KMJv4e0OuVOjhtQeghbvoGG1dhS-r1dZ76J8R53VbzKRbU-pCJMc\nXuac0r1POVh_udO4BA\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "malformed"
+            }
+        },
+        {
+            "name": "malformed-trailing-text",
+            "description": "Text after the END line.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\nNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.SuMV\nWWGA0nLjKZv1KMJv4e0OuVOjhtQeghbvoGG1dhS-r1dZ76J8R53VbzKRbU-pCJMc\nXuac0r1POVh_udO4BA\n-----END VAULTIGEN LICENSE-----\nKind regards\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "malformed"
+            }
+        },
+        {
+            "name": "malformed-base64-padding",
+            "description": "base64url padding is not allowed.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGljZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vuc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0aW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAyNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0=.SuMVWWGA0nLjKZv1KMJv4e0OuVOjhtQeghbvoGG1dhS-r1dZ76J8R53VbzKRbU-pCJMcXuac0r1POVh_udO4BA==\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "malformed"
+            }
+        },
+        {
+            "name": "malformed-three-parts",
+            "description": "The body has an extra dot-separated part.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGljZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vuc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0aW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAyNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.SuMVWWGA0nLjKZv1KMJv4e0OuVOjhtQeghbvoGG1dhS-r1dZ76J8R53VbzKRbU-pCJMcXuac0r1POVh_udO4BA\n.AAAA\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "malformed"
+            }
+        },
+        {
+            "name": "malformed-short-signature",
+            "description": "The signature does not decode to 64 bytes.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\nNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIn0.AAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "malformed"
+            }
+        },
+        {
+            "name": "malformed-payload-not-json",
+            "description": "The signed payload is not valid JSON.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLA.RS4Dn84g27JvkewWw9pzZyqNjhRiHkAi5-flsAHpbUZeRYTkOz54e\nGRTZtKorkJuh2OCAunizZ0rA2JfpVhBBw\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "malformed"
+            }
+        },
+        {
+            "name": "malformed-payload-not-object",
+            "description": "The signed payload is a JSON array, not an object.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\nWyJ2YXVsdGlnZW4iXQ.GI4egRN_UZZP4TnWdlAYkuHFAlfWMyJcDIYLnH6XGGkG3\nv5TwMTlsxnHGsne2ZEunFMiqCt8GrCIaw1Cwz0fDg\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "malformed"
+            }
+        },
+        {
+            "name": "malformed-oversized",
+            "description": "The input exceeds 8192 bytes, even though the signature is valid.",
+            "release_date": "2026-10-01",
+            "armored": "-----BEGIN VAULTIGEN LICENSE-----\neyJ2IjoxLCJwcm9kdWN0IjoidmF1bHRpZ2VuIiwia2lkIjoidGVzdC0xIiwibGlj\nZW5zZV9pZCI6ImxpY18wMUo5WlEzVjZLOE0yTjRQNVI3UzlUMVczWCIsImxpY2Vu\nc2VlIjoiQUNNRSBHbWJIIiwiZW1haWwiOiJpdEBhY21lLmV4YW1wbGUiLCJlZGl0\naW9uIjoicHJvIiwibWF4X3VzZXJzIjpudWxsLCJ1cGRhdGVzX3VudGlsIjoiMjAy\nNy0xMC0wMSIsImlzc3VlZF9hdCI6IjIwMjYtMTAtMDFUMTI6MDA6MDBaIiwicGFk\nZGluZyI6Inh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4\neHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4In0.tmM2iM0x\n_tBa0uJZZACQrFmL2B-dihMbiKsrdRAlpsDns_4zaMR8Co5Wo8QdzR-mvdbMkAjO\n4bHAHRzucw0RBg\n-----END VAULTIGEN LICENSE-----\n",
+            "expected": {
+                "state": "invalid",
+                "reason": "malformed"
+            }
+        }
+    ]
+}

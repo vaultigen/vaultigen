@@ -1,0 +1,6 @@
+{
+    "kid": "test-1",
+    "note": "TEST ONLY. Derived from a public seed. Production code never trusts this key; tests inject it through the container.",
+    "public_key": "23ufwFS9TWQkR/zfec3vkDWwyWx0rS/wXqVMy3A3qeo=",
+    "secret_key": "HwcJ0QXLRpr5DHcKTrocnro09bXyGbZRMjmSOSs+w0nbe5/AVL1NZCRH/N95ze+QNbDJbHStL/BepUzLcDep6g=="
+}

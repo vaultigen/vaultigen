@@ -1,0 +1,13 @@
+# Development only: run the stack with the image built locally by
+# scripts/docker/build.sh instead of a published release. Not for customers.
+#   COMPOSE_FILE=compose.yaml:compose.build.yaml (add compose.proxy.yaml if needed)
+x-local-image: &local-image
+  image: ${VAULTIGEN_LOCAL_IMAGE:-localhost/vaultigen:local}
+  pull_policy: never
+
+services:
+  setup: *local-image
+  migrate: *local-image
+  web: *local-image
+  worker: *local-image
+  scheduler: *local-image

@@ -1,0 +1,112 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/**/*';
+@source '../../../views/filament/**/*';
+
+/*
+ |--------------------------------------------------------------------------
+ | Typography
+ |--------------------------------------------------------------------------
+ | Vaultigen uses the host's system UI stack. No external font provider is
+ | configured, so nothing is fetched from a CDN. `html:root` outranks the
+ | `:root` block Filament injects for `--font-family`.
+ */
+html:root {
+    --font-family:
+        ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --mono-font-family:
+        ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        'Liberation Mono', 'Courier New', monospace;
+    --serif-font-family:
+        ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+}
+
+/*
+ |--------------------------------------------------------------------------
+ | Shape
+ |--------------------------------------------------------------------------
+ | Brand radii are one step softer than Tailwind's defaults.
+ */
+@theme {
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.25rem;
+}
+
+/*
+ |--------------------------------------------------------------------------
+ | Dark surfaces
+ |--------------------------------------------------------------------------
+ | Paper (rather than pure white) is used for text, rings and borders, and
+ | muted secondary text is lifted to the Vaultigen muted token.
+ */
+html.dark {
+    --color-white: #ecf2ea;
+    --gray-500: #97a595;
+    --gray-800: #232b24;
+}
+
+/*
+ |--------------------------------------------------------------------------
+ | Grouped tables
+ |--------------------------------------------------------------------------
+ | Filament paints striped record rows and group-header rows with the same
+ | tint, so a folder or scope header disappears into the stripes. Lift the
+ | header band onto the ink ramp's border shade, mark it with a hairline, and
+ | set the label in the mono kicker voice so it reads as a section, not a row.
+ */
+html:not(.dark) .fi-ta-row.fi-ta-group-header-row > td {
+    background-color: var(--gray-200);
+    box-shadow: inset 0 1px 0 0 var(--gray-400);
+}
+
+html.dark .fi-ta-row.fi-ta-group-header-row > td {
+    background-color: var(--gray-700);
+    box-shadow: inset 0 1px 0 0 var(--gray-500);
+}
+
+.fi-ta-row.fi-ta-group-header-row .fi-ta-group-heading {
+    font-family: var(--mono-font-family);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+/*
+ |--------------------------------------------------------------------------
+ | Secure-state accent
+ |--------------------------------------------------------------------------
+ | A subtle lime glow marks "secure" states: unlocked vault, verified sync.
+ */
+.vault-glow {
+    box-shadow: 0 0 30px -8px rgb(163 230 53 / 0.35);
+}
+
+/*
+ |--------------------------------------------------------------------------
+ | Sign-in ("unlock your vault") branding
+ |--------------------------------------------------------------------------
+ */
+.fi-vaultigen-kicker {
+    margin-bottom: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--primary-700);
+}
+
+html.dark .fi-vaultigen-kicker {
+    color: var(--primary-400);
+}
+
+html.dark .fi-simple-layout {
+    background-image: radial-gradient(
+        60% 40% at 50% 0%,
+        rgb(163 230 53 / 0.1),
+        transparent 70%
+    );
+}

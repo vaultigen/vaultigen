@@ -1,0 +1,193 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: '8.5'
+          tools: composer:v2
+          coverage: xdebug
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Setup Application
+        run: composer setup
+
+      - name: Run CI Checks
+        run: composer ci:check
+
+  databases:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - driver: pgsql
+            port: 5432
+            username: postgres
+          - driver: mysql
+            port: 3306
+            username: root
+          - driver: mariadb
+            port: 3307
+            username: root
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: vaultigen_test
+          POSTGRES_PASSWORD: testing-only-ci-password-32-chars
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s --health-timeout 5s --health-retries 10
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: vaultigen_test
+          MYSQL_ROOT_PASSWORD: testing-only-ci-password-32-chars
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping -ptesting-only-ci-password-32-chars"
+          --health-interval 10s --health-timeout 5s --health-retries 10
+      mariadb:
+        image: mariadb:11.4
+        env:
+          MARIADB_DATABASE: vaultigen_test
+          MARIADB_ROOT_PASSWORD: testing-only-ci-password-32-chars
+        ports:
+          - 3307:3306
+        options: >-
+          --health-cmd "healthcheck.sh --connect --innodb_initialized"
+          --health-interval 10s --health-timeout 5s --health-retries 10
+    env:
+      DB_CONNECTION: ${{ matrix.driver }}
+      DB_DATABASE: vaultigen_test
+      DB_HOST: 127.0.0.1
+      DB_PORT: ${{ matrix.port }}
+      DB_USERNAME: ${{ matrix.username }}
+      DB_PASSWORD: testing-only-ci-password-32-chars
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
+        with:
+          php-version: '8.5'
+          extensions: pdo_sqlite, pdo_mysql, pdo_pgsql, sodium
+          tools: composer:v2
+          coverage: none
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '22'
+      - name: Install MariaDB client
+        if: matrix.driver == 'mariadb'
+        run: sudo apt-get update && sudo apt-get install -y mariadb-client
+      - name: Install PostgreSQL client
+        if: matrix.driver == 'pgsql'
+        run: |
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y postgresql-client-17
+          echo "/usr/lib/postgresql/17/bin" >> "$GITHUB_PATH"
+      - run: composer setup
+      - run: php artisan test --compact
+
+  # Builds the production image without pushing it and runs the image and
+  # customer Compose tests against Docker Engine.
+  containers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      VAULTIGEN_CONTAINER_TESTS: '1'
+      VAULTIGEN_COMPOSE_TESTS: '1'
+      VAULTIGEN_TEST_IMAGE: vaultigen:local
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
+        with:
+          php-version: '8.5'
+          extensions: sodium
+          tools: composer:v2
+          coverage: none
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - run: cp .env.example .env && php artisan key:generate --no-interaction
+      - run: sh scripts/docker/build.sh
+      - run: vendor/bin/pest tests/Feature/ContainerImageTest.php tests/Feature/ComposeStackTest.php
+
+  supply-chain:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: '8.5'
+          tools: composer:v2
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Validate Composer manifests
+        run: composer validate --strict --no-check-publish
+
+      - name: Audit PHP dependencies
+        run: composer audit --locked --no-interaction
+
+      - name: Audit JavaScript dependencies
+        run: npm audit --audit-level=high
+
+      - name: Review dependency changes
+        if: github.event_name == 'pull_request'
+        uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4.9.0
+
+      # The gitleaks GitHub Action requires a paid license for organization
+      # repositories, so the MIT-licensed CLI image scans the full history.
+      - name: Scan for committed secrets
+        run: >-
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo:ro"
+          -e GIT_CONFIG_COUNT=1 -e GIT_CONFIG_KEY_0=safe.directory -e GIT_CONFIG_VALUE_0=/repo
+          ghcr.io/gitleaks/gitleaks:v8.28.0@sha256:bf00b5e039f0fad4b32935dc5ec1e358f227ccd097bcb64b971f0331072fe2ae
+          git /repo --config /repo/.gitleaks.toml --redact --no-banner --exit-code 1
+
+      - name: Generate a software bill of materials
+        uses: anchore/sbom-action@3ad7283483fc7af8ff2b4ea19663c2d5ca935e26 # v0.24.2
+        with:
+          path: .
+          format: spdx-json
+          artifact-name: vaultigen-sbom
+          output-file: ${{ runner.temp }}/vaultigen-sbom.spdx.json

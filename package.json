@@ -1,0 +1,21 @@
+{
+    "$schema": "https://www.schemastore.org/package.json",
+    "private": true,
+    "license": "Elastic-2.0",
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite"
+    },
+    "dependencies": {
+        "@tailwindcss/vite": "^4.1.11",
+        "concurrently": "^10.0.3",
+        "laravel-vite-plugin": "^3.1",
+        "tailwindcss": "^4.0.7",
+        "vite": "^8.0.0"
+    },
+    "optionalDependencies": {
+        "@rollup/rollup-linux-x64-gnu": "4.9.5",
+        "@tailwindcss/oxide-linux-x64-gnu": "^4.0.1"
+    }
+}

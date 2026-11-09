@@ -1,0 +1,56 @@
+# VAULTIGEN_WEB_MODE selects how the web role listens. "https" (compose.yaml)
+# obtains a certificate for VAULTIGEN_DOMAIN, serves it on 8443, and redirects
+# HTTP on 8080 to the public HTTPS URL without the internal port. "http" (the
+# default and compose.proxy.yaml) serves plain HTTP on 8080 for an existing
+# reverse proxy. Certificate state lives in /data.
+{
+	admin off
+	http_port 8080
+	https_port 8443
+	auto_https disable_redirects
+	skip_install_trust
+	frankenphp
+	log {
+		output stderr
+		level WARN
+	}
+}
+
+(vaultigen) {
+	root * /app/public
+	request_body {
+		max_size 130MiB
+	}
+	# Access logs can expose tokens in query strings; use application audit events.
+	@hidden path /.env* /.git/* /storage/*
+	respond @hidden 404
+	php_server
+}
+
+(mode-http) {
+	http://:8080 {
+		import vaultigen
+	}
+}
+
+(mode-https) {
+	{$VAULTIGEN_DOMAIN} {
+		import vaultigen
+	}
+
+	http://{$VAULTIGEN_DOMAIN} {
+		redir https://{host}{uri} 308
+	}
+}
+
+import mode-{$VAULTIGEN_WEB_MODE:http}
+
+# Container health checks only; never published.
+http://:8081 {
+	bind 127.0.0.1
+	@health path /up
+	handle @health {
+		import vaultigen
+	}
+	respond 404
+}
