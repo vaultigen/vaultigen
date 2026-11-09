@@ -44,7 +44,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
           php-version: '8.5'
           extensions: sodium
@@ -86,7 +86,7 @@ jobs:
         run: vendor/bin/pest tests/Feature/ContainerImageTest.php tests/Feature/ComposeStackTest.php
 
       - name: Generate a software bill of materials
-        uses: anchore/sbom-action@3ad7283483fc7af8ff2b4ea19663c2d5ca935e26 # v0.24.2
+        uses: anchore/sbom-action@66cbf4bc1f1c0d2edc94016e65bc221b6bb0ad6c # v0.24.3
         with:
           image: vaultigen:local
           format: spdx-json
