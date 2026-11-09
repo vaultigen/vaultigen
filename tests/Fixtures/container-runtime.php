@@ -88,9 +88,10 @@ require_container_condition(gd_info()['WebP Support'] && gd_info()['JPEG Support
 require_container_condition(sys_get_temp_dir() === '/app/storage/app/private/tmp', 'Temporary files must use private disk storage.');
 require_container_condition((fileperms(sys_get_temp_dir()) & 0777) === 0700, 'Private temporary directory permissions are incorrect.');
 require_container_condition(! is_writable('/app/artisan') && ! is_writable('/app/config') && ! is_writable('/app/public'), 'Application code is writable.');
-foreach (['.env', '.git', 'node_modules', 'tests', 'docs', 'auth.json'] as $path) {
+foreach (['.env', '.git', 'node_modules', 'tests', 'auth.json'] as $path) {
     require_container_condition(! file_exists('/app/'.$path), 'Unexpected image content: '.$path);
 }
+require_container_condition(array_values(array_diff(scandir('/app/docs'), ['.', '..'])) === ['legal'], 'Only the legal documents may ship from docs/.');
 foreach (['laravel/boost', 'laravel/pint', 'pestphp/pest', 'fakerphp/faker', 'mockery/mockery'] as $package) {
     require_container_condition(! InstalledVersions::isInstalled($package), 'Development package present: '.$package);
 }

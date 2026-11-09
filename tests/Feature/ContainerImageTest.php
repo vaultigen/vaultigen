@@ -164,7 +164,7 @@ it('keeps host state and development files out of every image layer', function (
             foreach (explode("\n", trim($listing)) as $path) {
                 $path = preg_replace('#^\./#', '', $path);
                 // Directory entries end in "/"; only files and links can carry host state.
-                if (! str_ends_with($path, '/') && preg_match('#^app/(?:\.env[^/]*|\.git/|node_modules/|tests/|docs/|auth\.json$|bootstrap/cache/config\.php$|database/(?:factories|seeders)/.*\.php$|storage/)#', $path)) {
+                if (! str_ends_with($path, '/') && preg_match('#^app/(?:\.env[^/]*|\.git/|node_modules/|tests/|docs/(?!legal/)|auth\.json$|bootstrap/cache/config\.php$|database/(?:factories|seeders)/.*\.php$|storage/)#', $path)) {
                     $forbidden[] = $path;
                 }
             }
